@@ -1,1 +1,0 @@
-Directory for auto scripts, i.e compiling to ES6 via Babel
