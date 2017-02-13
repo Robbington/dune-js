@@ -8,7 +8,7 @@ _global.tmp = function(args, game) {
 		height: 0,
 		background: false,
 		color : false,
-		font  : false  
+		font  : false,
 		x     : 0,
 		y     : 0, 
 		buttons : {}
@@ -25,7 +25,13 @@ _global.tmp = function(args, game) {
 
 	return {
 		render : function() {
-
+			game.canvas.ctx.rect(
+				render_map.x,
+				render_map.y,
+				render_map.width,
+				render_map.height
+			);
+			ctx.stroke();  
 		}, 
 		handle : function(){
 			

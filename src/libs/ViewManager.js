@@ -36,7 +36,6 @@ _global.tmp = function(e, a, g) {
 			},
 			handle: function(t, e){
 				this.last = {'type' : t, 'event' : e};
-				console.log(this.events);
 				if(typeof this.events[t] == 'object') {
 					for(var ve =0;ve<this.events[t].length;ve++) {
 						if(this.process(this.events[t][ve]) === true) {
@@ -133,6 +132,16 @@ _global.tmp = function(e, a, g) {
 		fireEvent : function(type, e) {
 			eventRegister.handle(type,e);
 		},
+		createSingleInstanceEntity : function(id, config) {
+			var entities = entityManager.getEntities();
+			for(var e=0;e<entities.length;e++){
+				if(typeof entities[e][id] == 'object'){
+					return entities[e][id];
+				}
+			}
+			entityManager.create(id, config);
+		},
+		createEntity : entityManager.create,
 		getGame : function() { //DEBUG ONLY METHOD 
 			return game;
 		}

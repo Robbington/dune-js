@@ -3,14 +3,16 @@ var _global = _global || {}
 _global.tmp = function(a, g) {
 	var assets = a, 
 		game = g,
-		cache : {},
-		queue : [],
-		entities : [], 
+		cache = {},
+		queue = [],
+		entities = [], 
 	
 	onload_queue = function(id) {
 		for(var q=0;q<queue.length;q++) {
 			if(typeof queue[q][id] === 'object') {
-				entities.push({id :cache[id](queue[q][id])})
+				var item = {};
+				item[id] = cache[id](queue[q][id]);
+				entities.push(item)
 				queue.splice(q, 1);
 			}
 		}
@@ -29,7 +31,7 @@ _global.tmp = function(a, g) {
 		create : function(id, data) {
 			if(typeof cache[id] !== 'undefined') {
 				item = {};
-				if(cache[id] == function) {
+				if(typeof cache[id] == 'function') {
 					item[id] = cache[id](data);
 					entities.push( item );
 				}
@@ -38,12 +40,15 @@ _global.tmp = function(a, g) {
 					queue.push(item)
 				} 	
 			}
-		}
+		},
 		reset : function() {
 			entities = {};
-		}
+		},
 		getEntities : function() {
 			return entities;
-		}
+		},
+		hasEntity : function(id) {
+			
+		} 
 	}
 };

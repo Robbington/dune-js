@@ -8,9 +8,16 @@ _global.tmp = function(viewManager) {
 		playVideo : function() {
 			viewManager.getAssets('intro').render();
 		},
-		showMenu : function(){
-			//viewManager.getAssets('background').render(0, 0);
-			//viewManager.getEntity('menu').render(50, 50);
+		showMenu : function() {
+			var e = viewManager.createSingleInstanceEntity(
+				'menu', {
+					height:300,
+					width:300,
+					background : '#fff'
+				}
+			);
+			
+			if(e){e.render();}	
 		},
 		current : function(){
 			if(this.ref !== 'current' && this.ref !== 'paused') {
@@ -33,26 +40,7 @@ _global.tmp = function(viewManager) {
 			}	
 		},
 		entities : {
-			'menu' : {
-				'src'  : '/entities/menu.js',
-				'args' : {
-					width : 300,
-					height: 300,
-					background: 'white',
-					color : 'white',
-					font  : 'ariel'  
-					x     : 100,
-					y     : 100 
-					buttons : {
-						start : {
-							label : 'start new game',
-							click : function(){
-
-							}
-						}
-					}
-				}	
-			}	
+			'menu' : '/src/entities/menu.js'
 		},
 		events : {
 			click : [
