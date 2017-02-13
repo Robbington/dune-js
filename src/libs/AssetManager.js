@@ -9,7 +9,7 @@ _global.tmp = function(game){
 			x = x || 0, 
 			y = y || 0;
 			try{
-				game.canvas.cxt.drawImage(a, x, y, 1000, 500);
+				game.canvas.cxt.drawImage(a, x, y, 1000, 500);//ToDo Set Canvas width and height properly
  			}
  			catch(e) {
  				if (e.name == "NS_ERROR_NOT_AVAILABLE") {

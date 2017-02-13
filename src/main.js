@@ -67,6 +67,7 @@ var main = (function() {
 				},
 				cache: {},
 				autoload : function(src, callback) {
+			
 					if(typeof game.cache[src] !== 'undefined') {
 						return;
 					}
@@ -77,7 +78,7 @@ var main = (function() {
 	
 					script.onload = function () {
 						if(typeof callback == 'function') {
-						callback(game);
+							callback(game, _global.tmp || false );
 					}
 				}
 				script.src = src;
@@ -90,11 +91,14 @@ var main = (function() {
     	init : function(canvas, config) {
     		if(!initiated) {
     			game.canvas.element = canvas;
-    			game.canvas.cxt = canvas.getContext('2d');
-    			game.autoload('src/config.js', function(game) { 
-					if(typeof _global == 'object') {
-						_global.loadServices(game, game.loop.start);			
-					}
+				game.canvas.cxt = canvas.getContext('2d');
+    			game.autoload('src/lib/ContextWrapper.js', function(game, wrapper) { 
+					game.canvas.wrapper = wrapper(game.canvas.cxt);
+					game.autoload('src/config.js', function(game) { 
+						if(typeof _global == 'object') {
+							_global.loadServices(game, game.loop.start);			
+						}
+					})
 				});
 				initiated = true;
     		}

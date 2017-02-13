@@ -33,6 +33,7 @@ _global.tmp = function(ctx) {
 				ctx.rect(x,y,w,h);
 				ctx.stroke();
 			}, ['lineWidth', 'strokeStyle']);
-		}
+		}, 
+		draw : 
 	}
 }
