@@ -2,7 +2,19 @@
 var main = (function() {
 		var initiated = false,
 			game = {
-				canvas : { element : false, cxt : false },
+				canvas : { 
+					element : false, 
+					cxt : false,
+					h : false, w : false, 
+					refresh : function() {
+						if(!this.h) {
+							this.h = this.element.height;
+							this.w = this.element.width;
+						}
+						this.cxt.clearRect(0,0,1000,500);
+						return this;
+					}	 
+				},
 				loop   : {
 					frame : 0,
 					fps: 40,
@@ -12,7 +24,7 @@ var main = (function() {
 						if(!game.loop.intval) {
 							game.loop.intval = setInterval(
 								game.loop.render, 
-								(game.loop.fps / 1000)
+								(1000 / game.loop.fps)
 							);
 						}
 					},
@@ -22,11 +34,10 @@ var main = (function() {
 					render : function() {
 						state = game.state;
 						loop  = game.loop;
-	
-						loop.stop();
+						//loop.stop();
 						if(state.ready && state.view.instance) {
 							if (loop.interpolate()) {
-								var retval = state.view.instance.render(game.canvas);
+								var retval = state.view.instance.render(game.canvas.refresh);
 								if(typeof retval == 'function') {
 									retval(main, state);
 								}
@@ -79,7 +90,7 @@ var main = (function() {
     	init : function(canvas, config) {
     		if(!initiated) {
     			game.canvas.element = canvas;
-    			game.canvas.cxt = canvas.getContext('webgl');
+    			game.canvas.cxt = canvas.getContext('2d');
     			game.autoload('src/config.js', function(game) { 
 					if(typeof _global == 'object') {
 						_global.loadServices(game, game.loop.start);			

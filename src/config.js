@@ -20,7 +20,7 @@ var _global = (function() {
 				instance : false,
 				onInit   : function(instance, state, cb) {
 					this.instance = instance;
-					view = this.getView(state.view.label || 'intro', function(view){
+					view = this.getView(state.view.label || 'intro', function(view) {
 					if(view) {
 						state.view.label = view.label;
 						state.view.instance = view.instance; 
@@ -33,7 +33,7 @@ var _global = (function() {
 					
 					if(!this.instance.get(label)) {
 						var that = this,
-							path = '/src/stages/' + label + '.js';  
+							path = '/src/views/' + label + '.js';  
 						
 						services.game.autoload(path, function() {
 							cb(that.instance._register(label));	
