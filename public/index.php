@@ -31,6 +31,11 @@
 				background-color: #fff;
 			}
 
+			@font-face {
+    			font-family: 'dos';
+    			src: url('/assets/fonts/dos_vga.ttf');
+			}
+
 		</style>
 	</body>
 </html>

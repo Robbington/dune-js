@@ -11,12 +11,28 @@ _global.tmp = function(viewManager) {
 		showMenu : function() {
 			var e = viewManager.createSingleInstanceEntity(
 				'menu', {
-					height:300,
-					width:300,
-					background : '#fff'
+					x : 325,
+					y :335,
+					height:160,
+					width:375,
+					font : '30px dos',
+					colour : '#cccccc',
+					lineheight : 65,
+					background : 'box',
+					font_color : '#fff',
+					font_stroke:true,
+					buttons : {
+						start : {
+							label : 'Play a game',
+							indent : 35,
+							onclick : function(){
+
+							}
+						}
+					}
 				}
 			);
-			
+
 			if(e){e.render();}	
 		},
 		current : function(){
@@ -47,7 +63,12 @@ _global.tmp = function(viewManager) {
 				function(e) {
 					display.ref = 'showMenu';
 				}
-			]
+			], 
+			keydown : [
+				function(e) {
+					display.ref = 'showMenu';
+				}
+			]	
 		}
 	}
 

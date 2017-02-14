@@ -37,9 +37,14 @@ var main = (function() {
 						//loop.stop();
 						if(state.ready && state.view.instance) {
 							if (loop.interpolate()) {
-								var retval = state.view.instance.render(game.canvas.refresh);
-								if(typeof retval == 'function') {
-									retval(main, state);
+								try{
+									var retval = state.view.instance.render(game.canvas.refresh);
+									if(typeof retval == 'function') {
+										retval(main, state);
+									}
+								}catch(error){
+									console.log(error);
+									loop.stop();
 								}
 							}
 						}
@@ -92,8 +97,8 @@ var main = (function() {
     		if(!initiated) {
     			game.canvas.element = canvas;
 				game.canvas.cxt = canvas.getContext('2d');
-    			game.autoload('src/lib/ContextWrapper.js', function(game, wrapper) { 
-					game.canvas.wrapper = wrapper(game.canvas.cxt);
+    			game.autoload('src/libs/ContextWrapper.js', function(game, wrapper) { 
+					game.canvas.wrapper = wrapper(game.canvas.cxt, game.canvas.element);
 					game.autoload('src/config.js', function(game) { 
 						if(typeof _global == 'object') {
 							_global.loadServices(game, game.loop.start);			

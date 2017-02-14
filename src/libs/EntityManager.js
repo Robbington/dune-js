@@ -11,7 +11,7 @@ _global.tmp = function(a, g) {
 		for(var q=0;q<queue.length;q++) {
 			if(typeof queue[q][id] === 'object') {
 				var item = {};
-				item[id] = cache[id](queue[q][id]);
+				item[id] = cache[id](queue[q][id], game);
 				entities.push(item)
 				queue.splice(q, 1);
 			}
@@ -32,7 +32,7 @@ _global.tmp = function(a, g) {
 			if(typeof cache[id] !== 'undefined') {
 				item = {};
 				if(typeof cache[id] == 'function') {
-					item[id] = cache[id](data);
+					item[id] = cache[id](data, game);
 					entities.push( item );
 				}
 				else {

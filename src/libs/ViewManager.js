@@ -98,8 +98,15 @@ _global.tmp = function(e, a, g) {
 		game.canvas.element.onclick = function(e) {
 			eventRegister.handle('click', e);
 		};
-		game.canvas.element.hover = function(e) {
-			eventRegister.handle('hover', e);
+
+		window.onmousemove = function(e){
+			var x = e.clientX, y = e.clientY,
+				bounds = game.canvas.element.getBoundingClientRect();
+			if(x > bounds.x && x < bounds.x + game.canvas.element.width) {
+				if(y > bounds.y && y < bounds.y + game.canvas.element.height) {
+					eventRegister.handle('hover', {x : (x - bounds.x), y : (y - bounds.y)});
+				}
+			}
 		};
 		window.keydown = function(e) {
 			eventRegister.handle('keydown', e);
