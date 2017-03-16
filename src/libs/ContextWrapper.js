@@ -3,7 +3,7 @@ var _global = _global || {}
 _global.tmp = function(ctx, canvas) {
 	
 	canvas.getCentre = function(prop, adj) {
-		var a = this[prop] / 2;
+		var a = prop / 2;
 		if(parseInt(adj) > 0) {
 			a = a - (adj / 2);
 		}
@@ -47,13 +47,13 @@ _global.tmp = function(ctx, canvas) {
 	}, 
 	getX = function(x, w) {
 		if(x == true) {
-			return canvas.getCentre('width', w);
+			return canvas.getCentre(canvas.getWidth(), w);
 		}
 		return x;
 	},
 	getY = function(y, h){
 		if(y == true) {
-			return canvas.getCentre('height', h);
+			return canvas.getCentre(canvas.getHeight(), h);
 		}
 		return y;
 	}
@@ -73,7 +73,6 @@ _global.tmp = function(ctx, canvas) {
 				if(c && !lw) {
 					ctx.fillStyle = c;
    					ctx.fillRect(x,y,w,h);
-   					console.log('spoons');
 				} else {
 					ctx.rect(x,y,w,h);
 					ctx.stroke();
@@ -81,6 +80,22 @@ _global.tmp = function(ctx, canvas) {
 				
 			}, ['lineWidth', 'strokeStyle', 'fillStyle']);
 		},
-		write : write
+		write : write,
+		background: function(bg) {
+			if(typeof(bg) === 'string') {
+				this.rect(0, 0, canvas.getWidth(), canvas.getHeight(), bg, false);
+			}
+		}, 
+		fade : function(inc, set) {
+			var opacity = parseFloat(canvas.element.style.opacity || 1);
+			if(set) {
+				opacity = set;
+			}
+			else{
+				opacity += inc;
+			}
+
+			canvas.element.style.opacity = opacity;
+		}
 	}
 }

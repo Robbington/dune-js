@@ -4,22 +4,23 @@ _global.tmp = function(a, g) {
 	var assets = a, 
 		game = g,
 		cache = {},
-		queue = [],
-		entities = [], 
+		queue = {},
+		entities = {}, 
 	
 	onload_queue = function(id) {
-		for(var q=0;q<queue.length;q++) {
-			if(typeof queue[q][id] === 'object') {
-				var item = {};
-				item[id] = cache[id](queue[q][id], game);
-				entities.push(item)
-				queue.splice(q, 1);
+		if(queue[id]){
+			for(var q in queue[id]) {
+				var item = queue[id][q];
+				if(typeof item === 'object') {
+					entities[id][q] = cache[id](item, data, q);
+				}
+				delete queue[id][q];
 			}
 		}
 	}
 
 	return {
-		register : function(id, src){ 
+		register : function(id, src) { 
 			if(typeof cache[id] !== 'function') {
 				cache[id] = true;
 				game.autoload(src, function(){
@@ -28,27 +29,36 @@ _global.tmp = function(a, g) {
 				});
 			}
 		},
-		create : function(id, data) {
-			if(typeof cache[id] !== 'undefined') {
+		create : function(type, id, data) {
+
+			if(typeof cache[type] === 'function') {
 				item = {};
-				if(typeof cache[id] == 'function') {
-					item[id] = cache[id](data, game);
-					entities.push( item );
+				if(typeof entities[type] === 'undefined'){
+					entities[type] = {};
 				}
-				else {
-					item[id] = data;
-					queue.push(item)
-				} 	
+				entities[type][id] = cache[type](data, game);	
+			}
+			else {
+				if (typeof queue[type] === 'undefined') {
+					queue[type] = {};
+				}
+				queue[type][id] = item;
 			}
 		},
 		reset : function() {
-			entities = {};
+			entities = [];
 		},
 		getEntities : function() {
 			return entities;
 		},
 		hasEntity : function(id) {
 			
-		} 
+		}, 
+		getEntitiesByType(type) {
+			if(entities[type]) {
+				return entities[type];
+			}
+			return {};
+		}
 	}
 };

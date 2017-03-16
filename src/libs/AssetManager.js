@@ -4,8 +4,8 @@ _global.tmp = function(game){
 
 	var cache = {},
 	_render = function(a, x, y) { 
-		var w = a.width  || game.canvas.w,
-			h = a.height || game.canvas.h,
+		var w = a.width  || game.canvas.getWidth(),
+			h = a.height || game.canvas.getHeight(),
 			x = x || 0, 
 			y = y || 0;
 			try{
@@ -18,7 +18,18 @@ _global.tmp = function(game){
  			}
  		}, 
  		_clip = function(a,sx,sy,sw,sh,x,y,w,h){
- 			game.canvas.ctx.drawImage(a, sx,sy,sw,sh,x,y,w,h);
+ 			console.log(a);
+ 			console.log("Sx:" + sx);
+			console.log("Sy:" + sy);
+ 			console.log("Sw:" + sw);
+ 			console.log("Sh:" + sh);
+			console.log("x:" + x);
+ 			console.log("y:" + y);
+ 			console.log("w:" + w);
+ 			console.log("h:" + h);
+ 			
+ 			game.canvas.cxt.drawImage(a, sx, sy, sw, sh, x, y, w, h);
+ 			game.loop.stop();
  		};
 
 	validate = function(item) {
@@ -46,9 +57,9 @@ _global.tmp = function(game){
 		var image  = new Image(), 
 			loaded = false;
 
-        image.onload = function(){
+        image.onload = function() {
         	if(typeof a.onload == 'function') {
-        		a.onload();
+        		a.onload(this);
         	}
         	loaded = true;
         }
@@ -57,20 +68,65 @@ _global.tmp = function(game){
         return {
         	isLoaded : function(){ return (loaded === true)},
         	render : function(x, y){
-        		return _render(image, x,y)
+        		if(this.isLoaded()) {
+        			return _render(image, x, y);
+        		}
         	}, 
         	getType: function(){
         		return a.type;
         	}, 
-        	clip : function(sx,sy,sw,sh,x,y,w,h) {
-        		_clip(image, sx,sy,sw,sh,x,y,w,h);
+        	clip : function(sx, sy, sw, sh, x, y, w, h) {
+        		_clip(image, sx, sy, sw, sh, x, y, w, h);
         	}
         }
 	},
 	sprite = function(a) {
-		asset = image(a);
+		var cb = a.onload;
+		var asset = image(a);
+		var sprites = {};
+		a.onload = function(img) {
+			if(typeof a.sprites === 'object') {
+				var h = a.sprites.h || 0,
+					w = a.sprites.w || 0;
+				
+				a.rows = img.height / h,
+				a.cols = img.width  / w;
+				var c = 0;
+				for(var s in a.sprites) {
+					
+					if(typeof a.sprites[s] == 'object') {
+						c ++;
+						sprites[s] = a.sprites[s];
+						sprites[s].h = sprites[s].h | h;
+						sprites[s].w = sprites[s].w | w;
+						sprites[s].y = c * sprites[s].h;
+						sprites[s].getX = function(p) {
+							return this.w * p;
+						}
+						sprites[s].getY = function() {
+							return this.y;
+						}
+					}
+				}
+			}
 
-
+			if(typeof cb === 'function'){ cb(img); }
+		}
+	
+		return {
+			render : function(sprite, phase, x, y) {	
+				if(asset.isLoaded() && typeof sprites[sprite] == 'object') {
+					var s = sprites[sprite];
+					asset.clip(
+						s.getX(phase),
+						s.getY(),
+						s.h, s.w,
+						x, y, 
+						s.h, s.w
+					);
+				}
+			}
+		}
 	}, 
 	audio = function(a){
 

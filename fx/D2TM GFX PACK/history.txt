@@ -1,0 +1,11 @@
+History:
+
+This directory contains merely some data files, programs, text files and screenshots
+which are used, or made in time.
+
+For fun, you can check ou the 'screenshots' folder in order to 'follow' the project and
+actually see the results. I had a lot more screenshots actually, but due the size i had
+to cut down the amount of bmp's.
+
+
+screenshots are saved in a directory, the directory name is the date it was taken.

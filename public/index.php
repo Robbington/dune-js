@@ -6,7 +6,7 @@
 	</head>
 	<body> 
 		<div id="wrapper">
-			<canvas width='1000' height='500' id='canvas'></canvas>
+			<canvas height='500' width='1000' id='canvas'></canvas>
 		</div>
 		<script type='text/javascript'>
 			var g = main.init(document.getElementById('canvas')); 		

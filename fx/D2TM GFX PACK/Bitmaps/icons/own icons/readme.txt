@@ -1,0 +1,1 @@
+own made icons using the Dune 2 palette

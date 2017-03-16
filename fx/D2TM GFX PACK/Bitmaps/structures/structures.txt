@@ -1,0 +1,31 @@
+Structure bitmaps:
+
+I believe that Dune 2 does not draw structures like normal bitmaps. In fact in Dune 2
+i think every cell/square has a sort of bitmap/picture info. Because Dune 2 uses one
+file with a lot of tiles, i assume they refer to that file/picture id. The structures
+are probably 'assembled' by a few tiles. So when you place something, Dune 2 does
+nothing but change the tile id on those cells and probably adds some class/struct ref-
+erence somewhere in code so you can control the 'cells'. 
+
+What i did is something different. I simply assembled the structures myself (which took
+some time, i know) and i created 'frames'. All structures are 8 bit and using the
+harkonnen/standard palette. This means the 'house color' drawing will be ok and i simply
+have to give a 'frame' number in order to change the animation. 
+
+When a building recieves damage due rockets or other heavy impact then you simply add a
+'smoke' animation. Like on units; with a timer.
+
+
+Name prefix:
+------------
+
+BUILDING_widthxheight_typeofbuilding.bmp
+
+Example:
+
+BUILDING_3x2_prebuild.bmp 
+A 3x2 plateau/prebuild version with the size of 3x2.
+
+BUILDING_3x2_heavyfc.bmp
+
+a Heavy Factory, with the size of 3x2.
